@@ -100,7 +100,7 @@ fi
 #创建stack
 
 echo 'cannot find the same name stack'
-echo 'create stack  : '${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2'
+echo 'create stack  : '${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=1'
 if [ -z "$compose" ]; then
   echo "docker_compose can't be empty for create stack"
   exit 1
@@ -108,8 +108,8 @@ fi
 echo
 #echo "{\"Name\":\"'${INPUT_STACKNAME}'\",\"StackFileContent\":\"${compose}\",\"Env\":[]}"
 #输出结果
-create_content="{\"Name\":\"'${stack}'\",\"StackFileContent\":\"${compose}\",\"Env\":[]}"
-result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2' \
+create_content="{\"name\":\"'${stack}'\",\"swarmID\":\"'$INPUT_SWARMID'\",\"stackFileContent\":\"${compose}\",\"Env\":[]}"
+result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=1' \
 --header 'Authorization: Bearer '${token}'' \
 --header 'Content-Type: application/json' \
 --data-raw "$create_content")
